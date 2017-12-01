@@ -20,6 +20,8 @@ contract ERC223_channel_manager
     event ChannelOpened(uint8 indexed _id, address indexed _contract, bytes32 _secret);
     event ChannelConnected(uint8 indexed _id, address indexed _contract, bytes32 _secret);
     
+    mapping (address => bool) verified_contracts;
+    
     function openChannel(address _redeemer,
                          address _token,
                          address _desired_token,
@@ -38,6 +40,12 @@ contract ERC223_channel_manager
         {
             ChannelConnected(_id, _contract, _secret);
         }
+        verified_contracts[_contract] = true;
+    }
+    
+    function isVerified(address _contract) constant returns (bool)
+    {
+        return verified_contracts[_contract];
     }
 }
  
